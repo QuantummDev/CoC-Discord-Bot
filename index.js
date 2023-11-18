@@ -135,6 +135,7 @@ async function syncClanInfo() {
 		console.error('Error syncing clan info:', error.message);
 	}
 }
+
 async function clanWarInfo() {
 	try {
 		const response = await axios.get(`https://api.clashofclans.com/v1/clans/${config.CLAN_TAG}/currentwar`, {
@@ -174,11 +175,14 @@ async function clanWarInfo() {
 		let teamInfo = '';
 		let enemyInfo = '';
 		try {
-			data.clan.members.forEach((datateam) => {
-				teamInfo += `${datateam.mapPosition}. ${datateam.name}\nCV: ${datateam.townhallLevel}\nAtaques oponentes: ${datateam.opponentAttacks}\n\n`;
+			const sortedMembers = data.clan.members.sort((a, b) => a.mapPosition - b.mapPosition);
+			sortedMembers.forEach((player) => {
+				teamInfo += `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n\n`;
 			});
-			data.opponent.members.forEach((dataenemy) => {
-				enemyInfo += `${dataenemy.mapPosition}. ${dataenemy.name}\nCV: ${dataenemy.townhallLevel}\nAtaques oponentes: ${dataenemy.opponentAttacks}\n\n`;
+
+			const sortedOpponent = data.opponent.members.sort((a, b) => a.mapPosition - b.mapPosition);
+			sortedOpponent.forEach((player) => {
+				enemyInfo += `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n\n`;
 			});
 		}
 		catch (error) {
