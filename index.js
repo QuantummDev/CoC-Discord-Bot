@@ -83,9 +83,17 @@ async function UpdateServerLogo(test) {
 		console.error('Error updating logos:', error.message);
 	}
 }
+
+function encodeClanTag(clanTag) {
+	return clanTag.replace('#', '%23');
+}
+
+const encodedClanTag = encodeClanTag(config.CLAN_TAG);
+
 async function syncClanInfo() {
 	try {
-		const response = await axios.get(`https://api.clashofclans.com/v1/clans/${config.CLAN_TAG}`, {
+		console.log(encodedClanTag);
+		const response = await axios.get(`https://api.clashofclans.com/v1/clans/${encodedClanTag}`, {
 			headers: { 'Authorization': `Bearer ${config.COC_API_KEY}` },
 		});
 
@@ -138,7 +146,7 @@ async function syncClanInfo() {
 
 async function clanWarInfo() {
 	try {
-		const response = await axios.get(`https://api.clashofclans.com/v1/clans/${config.CLAN_TAG}/currentwar`, {
+		const response = await axios.get(`https://api.clashofclans.com/v1/clans/${encodedClanTag}/currentwar`, {
 			headers: { 'Authorization': `Bearer ${config.COC_API_KEY}` },
 		});
 
