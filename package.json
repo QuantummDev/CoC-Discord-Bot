@@ -1,19 +1,18 @@
 {
   "name": "cocbot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bot made by Quantum with heart to see your clan stats, current war and more!",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Quantum",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.2",
-    "clash-of-clans-api": "^0.6.4",
-    "clash-of-clans-node": "^1.1.4",
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "mongoose": "^8.0.1"
   },
   "devDependencies": {
     "eslint": "^8.54.0"

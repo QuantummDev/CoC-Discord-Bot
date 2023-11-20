@@ -3,5 +3,8 @@
     "clientId": "",
     "guildId": "",
     "COC_API_KEY": "",
-    "CLAN_TAG": "" 
+    "CLAN_TAG": "" ,
+    "WAR_CHANNEL_ID": "",
+    "INFO_CHANNEL_ID": "",
+    "MONGODB_URI": ""
 }
