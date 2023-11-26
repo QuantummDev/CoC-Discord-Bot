@@ -30,12 +30,12 @@ client.on('ready', async () => {
 
 	// War Function And Loop
 	await clanWarInfo(client, WarInfo);
-	setInterval(() => clanWarInfo(client, WarInfo), 60 * 1000);
+	setInterval(() => clanWarInfo(client, WarInfo), 10 * 1000);
 
 	// Update Logo's Function And loop
 
-	await UpdateServerLogo(client, logoUrl);
-	setInterval(() => UpdateServerLogo(client, logoUrl), 60 * 60 * 1000);
+	// await UpdateServerLogo(client, logoUrl);
+	// setInterval(() => UpdateServerLogo(client, logoUrl), 60 * 60 * 1000);
 });
 
 // Command And Event Handling

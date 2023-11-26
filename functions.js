@@ -156,7 +156,8 @@ async function clanWarInfo(client, WarInfo) {
 			else if (data.state == 'preparation') {
 				state = 'Preparação';
 			}
-			else {
+			else if (data.state == 'inWar') {
+				state = 'Em Guerra';
 				try {
 					const warEmbed = new EmbedBuilder()
 						.setColor(0x0099FF)
@@ -172,16 +173,52 @@ async function clanWarInfo(client, WarInfo) {
 						.setFooter({ text: 'Feito por Quantum', iconURL: data.clan.badgeUrls.medium });
 					const sortedMembers = data.clan.members.sort((a, b) => a.mapPosition - b.mapPosition);
 
-					teamInfo = sortedMembers.map((player) => `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n\n`).join('');
+					// teamInfo = sortedMembers.map((player) => `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n`).join('');
+					teamInfo = sortedMembers.map((player) => {
+						let info = `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\n\n`;
+
+						// Check if the player has made any attacks
+						if (player.attacks && player.attacks.length > 0) {
+							// Loop through each attack
+							player.attacks.forEach((attack) => {
+								const teamStars = '⭐'.repeat(attack.stars);
+								info += `${teamStars} ${attack.destructionPercentage}\n`;
+							// Add more details about the attack if needed
+							});
+						}
+						else {
+							info += '';
+						}
+
+						return info;
+					}).join('');
 
 					const sortedOpponent = data.opponent.members.sort((a, b) => a.mapPosition - b.mapPosition);
 
-					enemyInfo = sortedOpponent.map((player) => `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n\n`).join('');
+					// enemyInfo = sortedOpponent.map((player) => `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\nAtaques oponentes: ${player.opponentAttacks}\n`).join('');
+					enemyInfo = sortedOpponent.map((player) => {
+						let info = `${player.mapPosition}. ${player.name}\nCV: ${player.townhallLevel}\n\n`;
+
+						// Check if the player has made any attacks
+						if (player.attacks && player.attacks.length > 0) {
+							// Loop through each attack
+							player.attacks.forEach((attack) => {
+								const teamStars = '⭐'.repeat(attack.stars);
+								info += `${teamStars} ${attack.destructionPercentage}\n`;
+							// Add more details about the attack if needed
+							});
+						}
+						else {
+							info += '';
+						}
+
+						return info;
+					}).join('');
+
 
 					warEmbed.addFields({ name: 'ㅤ', value: teamInfo, inline: true });
 					warEmbed.addFields({ name: 'ㅤ', value: 'ㅤ', inline: true });
 					warEmbed.addFields({ name: 'ㅤ', value: enemyInfo, inline: true });
-
 					const warInfoMessageId = await getWarInfo(channel.guildId, WarInfo);
 					if (warInfoMessageId) {
 						try {
@@ -194,6 +231,7 @@ async function clanWarInfo(client, WarInfo) {
 
 							if (hoursRemainingToEnd == 0 & minutesRemainingToEnd === 5) {
 								// Code to handle saving War logs in a channel
+								console.log(data.clan);
 							}
 						}
 						catch (error) {
